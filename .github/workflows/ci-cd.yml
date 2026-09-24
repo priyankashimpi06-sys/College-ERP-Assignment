@@ -21,7 +21,7 @@ jobs:
       - name: Verify application files
         run: |
           echo "Checking College ERP application..."
-          find . -name "index.html"
+          test -f index.html
 
   test:
     name: Test Application
@@ -33,8 +33,7 @@ jobs:
       - name: Run application tests
         run: |
           echo "Running College ERP tests..."
-          HTML_FILE=$(find . -name "index.html" | head -n 1)
-          grep -q "College ERP" "$HTML_FILE"
+          grep -q "College ERP" index.html
           echo "All tests passed successfully."
 
   package:
@@ -47,8 +46,7 @@ jobs:
       - name: Create deployment package
         run: |
           mkdir package
-          HTML_FILE=$(find . -name "index.html" | head -n 1)
-          cp "$HTML_FILE" package/
+          cp index.html package/
           echo "Application packaged successfully."
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
